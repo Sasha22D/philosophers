@@ -17,10 +17,39 @@ typedef struct s_thread
 	t_fork	*fork_right;
 }t_thread;
 
+void	take_forks(t_thread *philo)
+{
+	printf("Philo %d veut prendre la fourchette de gauche\n", philo->id);
+	pthread_mutex_lock(&philo->fork_left->fork_mutex);
+	printf("Philo %d a pris la fourchette de gauche\n", philo->id);
+	printf("Philo %d veut la fourchette de droite\n", philo->id);
+	pthread_mutex_lock(&philo->fork_right->fork_mutex);
+	printf("Philo %d a pris la fourchette de droite\n", philo->id);
+}
+
+void	drop_forks(t_thread *philo)
+{
+	pthread_mutex_unlock(&philo->fork_left->fork_mutex);
+	printf("Philo %d a poser la fourchette de gauche\n", philo->id);
+	pthread_mutex_unlock(&philo->fork_right->fork_mutex);
+	printf("Philo %d a poser la fourchette de droite\n", philo->id);
+}
+
 void	*philo_routine(void *args)
 {
-	t_thread	*thread = (t_thread *)args;
-	printf("Philo %d prend sa fourchette de gauche\n", thread->id);
+	t_thread	*philo = (t_thread *)args;
+	
+	// TAKE FORKS ()
+	take_forks(philo);
+	// EAT()
+	printf("Philo %d a manger\n", philo->id);
+	// DROP FORKS()
+	drop_forks(philo);
+	
+	// THINK()
+
+	// SLEEP()
+	
 	return (NULL);
 }
 
@@ -37,10 +66,23 @@ t_thread	**init_struct_array(int	count)
 	{
 		array[i] = malloc(sizeof(t_thread));
 		array[i]->id = i + 1;
-		pthread_create(&array[i]->philo, NULL, philo_routine, array[i]);
+		// pthread_create(&array[i]->philo, NULL, philo_routine, array[i]);
 		i++;
 	}
+	array[i] = NULL;
 	return (array);
+}
+
+void	create_pthread(t_thread **philo_array)
+{
+	int	i;
+
+	i = 0;
+	while (philo_array[i])
+	{
+		pthread_create(&philo_array[i]->philo, NULL, philo_routine, philo_array[i]);
+		i++;
+	}
 }
 
 t_fork	**init_fork_array(int count)
@@ -59,6 +101,7 @@ t_fork	**init_fork_array(int count)
 		pthread_mutex_init(&array[i]->fork_mutex, NULL);
 		i++;
 	}
+	array[i] = NULL;
 	return (array);
 }
 
@@ -88,30 +131,25 @@ void	assign_forks(t_fork **fork_array, t_thread **philo_array, int count)
 	}
 }
 
-int	main()
+int	main(int ac, char **av)
 {
+	(void)ac;
 	t_thread	**philo_array;
 	t_fork		**fork_array;
 	int			count;
 	int			i;
 
 	i = 0;
-	count = 10;
+	count = atoi(av[1]);
 	philo_array = init_struct_array(count);
 	fork_array = init_fork_array(count);
 	assign_forks(fork_array, philo_array, count);
+	create_pthread(philo_array);
 	
-	while (philo_array[i])
+	i = 0;
+	while (i < count)
 	{
-		printf("Philo %d, fork_left id : %d, fork_right id : %d\n", philo_array[i]->id, philo_array[i]->fork_left->id, philo_array[i]->fork_right->id);
+		pthread_join(philo_array[i]->philo, NULL);
 		i++;
 	}
-	
-	
-	
-	// while (i < count)
-	// {
-	// 	pthread_join(philo_array[i]->philo, NULL);
-	// 	i++;
-	// }
 }

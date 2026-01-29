@@ -2,58 +2,107 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <sys/time.h>
+
+typedef struct s_data
+{
+	long	start_time;
+	long	time_to_die;
+	long	time_to_eat;
+	long	time_to_sleep;
+	int		has_a_philo_died;
+}				t_data;
 
 typedef struct s_fork
 {
-	int	id;
+	int				id;
 	pthread_mutex_t fork_mutex;
 }				t_fork;
 
 typedef struct s_thread
 {
-	int	id;
+	int			id;
 	pthread_t	philo;
-	t_fork	*fork_left;
-	t_fork	*fork_right;
-}t_thread;
+	t_fork		*fork_left;
+	t_fork		*fork_right;
+	t_data		*data;
+}				t_thread;
 
-void	take_forks(t_thread *philo)
+long	get_time()
 {
-	printf("Philo %d veut prendre la fourchette de gauche\n", philo->id);
+	struct timeval tv;
+	
+	gettimeofday(&tv, NULL);
+	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+}
+
+void	ft_usleep(int sleep)
+{
+	long long	start;
+	long long	now;
+
+	start = get_time();
+	now = 0;
+	while (now - start < sleep)
+		now = get_time();
+}
+
+void	init_data(t_data *data)
+{
+	data->has_a_philo_died = 0;
+	data->start_time = get_time();
+	data->time_to_eat = 200;
+	data->time_to_sleep = 200;
+}
+
+void	take_forks(t_thread *philo, long now)
+{
 	pthread_mutex_lock(&philo->fork_left->fork_mutex);
-	printf("Philo %d a pris la fourchette de gauche\n", philo->id);
-	printf("Philo %d veut la fourchette de droite\n", philo->id);
+	printf("%ld %d has taken left fork\n", now - philo->data->start_time, philo->id);
 	pthread_mutex_lock(&philo->fork_right->fork_mutex);
-	printf("Philo %d a pris la fourchette de droite\n", philo->id);
+	printf("%ld %d has taken right fork\n", now - philo->data->start_time, philo->id);
 }
 
 void	drop_forks(t_thread *philo)
 {
+	long	now;
+
+	now = get_time();
 	pthread_mutex_unlock(&philo->fork_left->fork_mutex);
-	printf("Philo %d a poser la fourchette de gauche\n", philo->id);
+	printf("%ld %d dropped left fork\n", now - philo->data->start_time, philo->id);
 	pthread_mutex_unlock(&philo->fork_right->fork_mutex);
-	printf("Philo %d a poser la fourchette de droite\n", philo->id);
+	printf("%ld %d dropped right fork\n", now - philo->data->start_time, philo->id);
 }
 
 void	*philo_routine(void *args)
 {
 	t_thread	*philo = (t_thread *)args;
-	
-	// TAKE FORKS ()
-	take_forks(philo);
-	// EAT()
-	printf("Philo %d a manger\n", philo->id);
-	// DROP FORKS()
-	drop_forks(philo);
-	
-	// THINK()
+	long		now;
 
-	// SLEEP()
+	if (philo->id % 2 != 0)
+		ft_usleep(philo->data->time_to_eat);
+	while (philo->data->has_a_philo_died == 0)
+	{
+		now = get_time();
+		// TAKE FORKS ()
+		take_forks(philo, now);
+		// EAT()
+		ft_usleep(philo->data->time_to_eat);
+		printf("%ld %d is eating\n", get_time() - philo->data->start_time, philo->id);
+		// DROP FORKS()
+		drop_forks(philo);
+		
+		// THINK()
+		ft_usleep(200);
+	
+		// SLEEP()
+		ft_usleep(philo->data->time_to_sleep);
+	}
 	
 	return (NULL);
 }
 
-t_thread	**init_struct_array(int	count)
+t_thread	**init_struct_array(int	count, t_data *data)
 {
 	t_thread	**array;
 	int			i;
@@ -66,7 +115,7 @@ t_thread	**init_struct_array(int	count)
 	{
 		array[i] = malloc(sizeof(t_thread));
 		array[i]->id = i + 1;
-		// pthread_create(&array[i]->philo, NULL, philo_routine, array[i]);
+		array[i]->data = data;
 		i++;
 	}
 	array[i] = NULL;
@@ -135,13 +184,17 @@ int	main(int ac, char **av)
 {
 	(void)ac;
 	t_thread	**philo_array;
+	t_data		*data;
 	t_fork		**fork_array;
 	int			count;
 	int			i;
 
+	data = malloc(sizeof(t_data));
+
 	i = 0;
 	count = atoi(av[1]);
-	philo_array = init_struct_array(count);
+	init_data(data);
+	philo_array = init_struct_array(count, data);
 	fork_array = init_fork_array(count);
 	assign_forks(fork_array, philo_array, count);
 	create_pthread(philo_array);

@@ -6,7 +6,7 @@ void	init_data(t_data *data)
 	data->has_a_philo_died = 0;
 	data->time_to_eat = 200;
 	data->time_to_sleep = 200;
-	data->time_to_die = 400;
+	data->time_to_die = 410;
 	pthread_mutex_init(&data->print_mutex, NULL);
 }
 

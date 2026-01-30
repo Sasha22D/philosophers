@@ -1,28 +1,54 @@
 #include "philosophers.h"
 
-void	take_forks(t_thread *philo, long now)
+void	take_forks(t_thread *philo)
 {
-	pthread_mutex_lock(&philo->fork_left->fork_mutex);
-	printf("%ld %d has taken a fork\n", now - philo->data->start_time, philo->id);
-	pthread_mutex_lock(&philo->fork_right->fork_mutex);
-	printf("%ld %d has taken a fork\n", now - philo->data->start_time, philo->id);
+	if (philo->data->has_a_philo_died == 0)
+	{
+		pthread_mutex_lock(&philo->fork_left->fork_mutex);
+		printf("%ld %d has taken a fork\n", philo->data->actual_time, philo->id);
+		pthread_mutex_lock(&philo->fork_right->fork_mutex);
+		if (philo->data->has_a_philo_died == 0)
+		{
+			printf("%ld %d has taken a fork\n", philo->data->actual_time, philo->id);
+		}
+	}
 }
 
 void	drop_forks(t_thread *philo)
 {
-	long	now;
+		pthread_mutex_unlock(&philo->fork_left->fork_mutex);
+		pthread_mutex_unlock(&philo->fork_right->fork_mutex);
+}
 
-	now = get_time();
-	pthread_mutex_unlock(&philo->fork_left->fork_mutex);
-	// printf("%ld %d dropped left fork\n", now - philo->data->start_time, philo->id);
-	pthread_mutex_unlock(&philo->fork_right->fork_mutex);
-	// printf("%ld %d dropped right fork\n", now - philo->data->start_time, philo->id);
+void	eat(t_thread *philo)
+{
+	if (philo->data->has_a_philo_died == 0)
+	{
+		printf("%ld %d is eating\n", philo->data->actual_time, philo->id);
+		philo->last_meal = get_time();
+		ft_usleep(philo->data->time_to_eat);
+	}
+}
+
+void	ft_sleep(t_thread *philo)
+{
+	if (philo->data->has_a_philo_died == 0)
+	{
+		printf("%ld %d is sleeping\n", philo->data->actual_time, philo->id);
+		ft_usleep(philo->data->time_to_sleep);
+	}
+}
+
+void	think(t_thread *philo)
+{
+	if (philo->data->has_a_philo_died == 0)
+		printf("%ld %d is thinking\n", philo->data->actual_time, philo->id);
 }
 
 void	*philo_routine(void *args)
 {
 	t_thread	*philo = (t_thread *)args;
-	long		now;
+	// long		now;
 
 	if (philo->id % 2 != 0)
 	{
@@ -31,23 +57,11 @@ void	*philo_routine(void *args)
 	}
 	while (philo->data->has_a_philo_died == 0)
 	{
-		now = get_time();
-		// TAKE FORKS ()
-		take_forks(philo, now);
-		// EAT()
-		printf("%ld %d is eating\n", now - philo->data->start_time, philo->id);
-		philo->last_meal = now;
-		ft_usleep(philo->data->time_to_eat);
-		// DROP FORKS()
+		take_forks(philo);
+		eat(philo);
 		drop_forks(philo);
-		// SLEEP()
-		now = get_time();
-		printf("%ld %d is sleeping\n", now - philo->data->start_time, philo->id);
-		ft_usleep(philo->data->time_to_sleep);
-		// THINK()
-		now = get_time();
-		printf("%ld %d is thinking\n", now - philo->data->start_time, philo->id);
-		// ft_usleep(1);
+		ft_sleep(philo);
+		think(philo);
 	}
 	return (NULL);
 }
@@ -60,12 +74,13 @@ void	*monitor_routine(void *args)
 	while (monitor->data->has_a_philo_died == 0)
 	{
 		i = 0;
+		monitor->data->actual_time = get_time() - monitor->data->start_time;
 		while (monitor->philo_array[i] && monitor->data->has_a_philo_died == 0)
 		{
 			if (get_time() - monitor->philo_array[i]->last_meal >= monitor->data->time_to_die)
 			{
 				monitor->data->has_a_philo_died = 1;
-				printf("%d has died\n", monitor->philo_array[i]->id);
+				printf("%ld %d died\n", monitor->data->actual_time, monitor->philo_array[i]->id);
 			}
 			i++;
 		}

@@ -25,7 +25,10 @@ void	*philo_routine(void *args)
 	long		now;
 
 	if (philo->id % 2 != 0)
+	{
+		printf("0 %d is thinking\n", philo->id);
 		ft_usleep(philo->data->time_to_eat);
+	}
 	while (philo->data->has_a_philo_died == 0)
 	{
 		now = get_time();
@@ -33,16 +36,19 @@ void	*philo_routine(void *args)
 		take_forks(philo, now);
 		// EAT()
 		printf("%ld %d is eating\n", now - philo->data->start_time, philo->id);
-		ft_usleep(philo->data->time_to_eat);
 		philo->last_meal = now;
+		ft_usleep(philo->data->time_to_eat);
 		// DROP FORKS()
 		drop_forks(philo);
 		// SLEEP()
+		now = get_time();
+		printf("%ld %d is sleeping\n", now - philo->data->start_time, philo->id);
 		ft_usleep(philo->data->time_to_sleep);
 		// THINK()
-		ft_usleep(200);
+		now = get_time();
+		printf("%ld %d is thinking\n", now - philo->data->start_time, philo->id);
+		// ft_usleep(1);
 	}
-	
 	return (NULL);
 }
 

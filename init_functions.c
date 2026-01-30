@@ -6,7 +6,8 @@ void	init_data(t_data *data)
 	data->has_a_philo_died = 0;
 	data->time_to_eat = 200;
 	data->time_to_sleep = 200;
-	data->time_to_die = 390;
+	data->time_to_die = 400;
+	pthread_mutex_init(&data->print_mutex, NULL);
 }
 
 t_thread	**init_struct_array(int	count, t_data *data)

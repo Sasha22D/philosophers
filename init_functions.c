@@ -6,6 +6,7 @@ void	init_data(t_data *data)
 	data->has_a_philo_died = 0;
 	data->time_to_eat = 200;
 	data->time_to_sleep = 200;
+	data->time_to_die = 390;
 }
 
 t_thread	**init_struct_array(int	count, t_data *data)
@@ -22,6 +23,7 @@ t_thread	**init_struct_array(int	count, t_data *data)
 		array[i] = malloc(sizeof(t_thread));
 		array[i]->id = i + 1;
 		array[i]->data = data;
+		array[i]->last_meal = data->start_time;
 		i++;
 	}
 	array[i] = NULL;

@@ -29,6 +29,7 @@ typedef struct s_thread
 	t_fork		*fork_left;
 	t_fork		*fork_right;
 	t_data		*data;
+	long		last_meal;
 }				t_thread;
 
 typedef struct s_monitor
@@ -39,9 +40,9 @@ typedef struct s_monitor
 }				t_monitor;
 
 // THREAD ROUTINE ETC
-void		*philo_routine(void *args);
 void		take_forks(t_thread *philo, long now);
 void		drop_forks(t_thread *philo);
+void		*philo_routine(void *args);
 
 // INIT FUNCTIONS
 void		init_data(t_data *data);
@@ -49,7 +50,6 @@ t_thread	**init_struct_array(int	count, t_data *data);
 void		create_pthread(t_thread **philo_array);
 t_fork		**init_fork_array(int count);
 void		assign_forks(t_fork **fork_array, t_thread **philo_array, int count);
-
 
 // UTILS
 long	get_time();

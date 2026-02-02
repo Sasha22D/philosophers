@@ -11,12 +11,15 @@ void	*monitor_routine(void *args)
 		monitor->data->actual_time = get_time() - monitor->data->start_time;
 		while (monitor->philo_array[i] && monitor->data->has_a_philo_died == 0)
 		{
-			if (get_time() - monitor->philo_array[i]->last_meal >= monitor->data->time_to_die)
+			if (monitor->philo_array[i]->meals_left != 0)
 			{
-				monitor->data->has_a_philo_died = 1;
-				pthread_mutex_lock(&monitor->data->print_mutex);
-				printf("%ld %d died\n", monitor->data->actual_time, monitor->philo_array[i]->id);
-				// pthread_mutex_unlock(&monitor->data->print_mutex);
+				if (get_time() - monitor->philo_array[i]->last_meal >= monitor->data->time_to_die)
+				{
+					monitor->data->has_a_philo_died = 1;
+					pthread_mutex_lock(&monitor->data->print_mutex);
+					printf("%ld %d died\n", monitor->data->actual_time, monitor->philo_array[i]->id);
+					// pthread_mutex_unlock(&monitor->data->print_mutex);
+				}
 			}
 			i++;
 		}

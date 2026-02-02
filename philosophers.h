@@ -43,20 +43,20 @@ typedef struct s_monitor
 }				t_monitor;
 
 // THREAD ROUTINE ETC
-void		take_forks(t_thread *philo);
-void		drop_forks(t_thread *philo);
 void		*philo_routine(void *args);
+void		*philo_routine_must_eat(void *args);
 
 // INIT FUNCTIONS
-void		init_data(t_data *data);
-t_thread	**init_struct_array(int count, t_data *data);
-void		create_pthread(t_thread **philo_array);
+t_data		*init_data(int time_to_die, int time_to_eat, int time_to_sleep);
+t_thread	**init_struct_array(t_data *data, int	count, int	meals_left);
+void		create_pthread(t_thread **philo_array, int meals_left);
 t_fork		**init_fork_array(int count);
 void		assign_forks(t_fork **fork_array, t_thread **philo_array, int count);
 void		init_monitor(t_monitor *monitor, t_data *data, t_thread **philo_array);
 
 // ROUTINE ACTIONS
-void		take_forks(t_thread *philo);
+void		take_fork_right(t_thread *philo);
+void		take_fork_left(t_thread *philo);
 void		drop_forks(t_thread *philo);
 void		eat(t_thread *philo);
 void		ft_sleep(t_thread *philo);

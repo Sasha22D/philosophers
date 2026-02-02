@@ -1,14 +1,25 @@
 #include "philosophers.h"
 
-void	take_forks(t_thread *philo)
+void	take_fork_right(t_thread *philo)
 {
-	if (philo->data->has_a_philo_died == 0)
-	{
-		pthread_mutex_lock(&philo->fork_left->fork_mutex);
-		printf("%ld %d has taken a fork\n", philo->data->actual_time, philo->id);
-		pthread_mutex_lock(&philo->fork_right->fork_mutex);
-		printf("%ld %d has taken a fork\n", philo->data->actual_time, philo->id);
-	}
+	if (philo->data->has_a_philo_died == 1)
+		return ;
+	else
+		pthread_mutex_lock(&philo->data->print_mutex);
+	pthread_mutex_lock(&philo->fork_right->fork_mutex);
+	printf("%ld %d has taken a fork\n", philo->data->actual_time, philo->id);
+	pthread_mutex_unlock(&philo->data->print_mutex);
+}
+
+void	take_fork_left(t_thread *philo)
+{
+	if (philo->data->has_a_philo_died == 1)
+		return ;
+	else
+		pthread_mutex_lock(&philo->data->print_mutex);
+	pthread_mutex_lock(&philo->fork_left->fork_mutex);
+	printf("%ld %d has taken a fork\n", philo->data->actual_time, philo->id);
+	pthread_mutex_unlock(&philo->data->print_mutex);
 }
 
 void	drop_forks(t_thread *philo)

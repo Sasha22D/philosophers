@@ -1,16 +1,22 @@
 #include "philosophers.h"
 
-void	init_data(t_data *data)
+t_data	*init_data(int time_to_die, int time_to_eat, int time_to_sleep)
 {
+	t_data	*data;
+
+	data = malloc(sizeof(t_data));
+	if (!data)
+		return (NULL);
 	data->start_time = get_time();
 	data->has_a_philo_died = 0;
-	data->time_to_eat = 20;
-	data->time_to_sleep = 20;
-	data->time_to_die = 60;
+	data->time_to_die = time_to_die;
+	data->time_to_eat = time_to_eat;
+	data->time_to_sleep = time_to_sleep;
 	pthread_mutex_init(&data->print_mutex, NULL);
+	return (data);
 }
 
-t_thread	**init_struct_array(int	count, t_data *data)
+t_thread	**init_struct_array(t_data *data, int	count, int	meals_left)
 {
 	t_thread	**array;
 	int			i;
@@ -25,21 +31,33 @@ t_thread	**init_struct_array(int	count, t_data *data)
 		array[i]->id = i + 1;
 		array[i]->data = data;
 		array[i]->last_meal = data->start_time;
+		array[i]->meals_left = meals_left;
 		i++;
 	}
 	array[i] = NULL;
 	return (array);
 }
 
-void	create_pthread(t_thread **philo_array)
+void	create_pthread(t_thread **philo_array, int meals_left)
 {
 	int	i;
 
 	i = 0;
-	while (philo_array[i])
+	if (meals_left != -1 && meals_left != 0)
 	{
-		pthread_create(&philo_array[i]->philo, NULL, philo_routine, philo_array[i]);
-		i++;
+		while (philo_array[i])
+		{
+			pthread_create(&philo_array[i]->philo, NULL, philo_routine_must_eat, philo_array[i]);
+			i++;
+		}
+	}
+	else if (meals_left == -1)
+	{
+		while (philo_array[i])
+		{
+			pthread_create(&philo_array[i]->philo, NULL, philo_routine, philo_array[i]);
+			i++;
+		}
 	}
 }
 

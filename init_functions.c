@@ -4,9 +4,9 @@ void	init_data(t_data *data)
 {
 	data->start_time = get_time();
 	data->has_a_philo_died = 0;
-	data->time_to_eat = 200;
-	data->time_to_sleep = 200;
-	data->time_to_die = 410;
+	data->time_to_eat = 20;
+	data->time_to_sleep = 20;
+	data->time_to_die = 60;
 	pthread_mutex_init(&data->print_mutex, NULL);
 }
 

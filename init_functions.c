@@ -1,6 +1,6 @@
 #include "philosophers.h"
 
-t_data	*init_data(int time_to_die, int time_to_eat, int time_to_sleep)
+t_data	*init_data(int count, int time_to_die, int time_to_eat, int time_to_sleep)
 {
 	t_data	*data;
 
@@ -12,6 +12,7 @@ t_data	*init_data(int time_to_die, int time_to_eat, int time_to_sleep)
 	data->time_to_die = time_to_die;
 	data->time_to_eat = time_to_eat;
 	data->time_to_sleep = time_to_sleep;
+	data->nb_philo = count;
 	pthread_mutex_init(&data->print_mutex, NULL);
 	return (data);
 }

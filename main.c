@@ -13,7 +13,7 @@ int	main(int ac, char **av)
 	i = 0;
 	count = atoi(av[1]);
 	monitor = malloc(sizeof(t_monitor));
-	data = init_data(atoi(av[2]), atoi(av[3]), atoi(av[4]));
+	data = init_data(atoi(av[1]), atoi(av[2]), atoi(av[3]), atoi(av[4]));
 	if (ac == 6)
 		philo_array = init_struct_array(data, count, atoi(av[5]));
 	else

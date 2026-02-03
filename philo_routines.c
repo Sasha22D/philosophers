@@ -20,6 +20,7 @@ void	*philo_routine(void *args)
 	}
 	return (NULL);
 }
+
 void	*philo_routine_must_eat(void *args)
 {
 	t_thread	*philo = (t_thread *)args;

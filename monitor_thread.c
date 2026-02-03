@@ -1,5 +1,19 @@
 #include "philosophers.h"
 
+int	check_meals(t_thread **philo_array)
+{
+	int	i;
+
+	i = 0;
+	while (philo_array[i]->meals_left == 0)
+	{
+		if (i == philo_array[i]->data->nb_philo)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 void	*monitor_routine(void *args)
 {
 	t_monitor	*monitor = (t_monitor *)args;

@@ -15,6 +15,7 @@ typedef struct s_data
 	long			time_to_eat;
 	long			time_to_sleep;
 	int				has_a_philo_died;
+	int				nb_philo;
 	pthread_mutex_t	print_mutex;
 }				t_data;
 
@@ -47,7 +48,7 @@ void		*philo_routine(void *args);
 void		*philo_routine_must_eat(void *args);
 
 // INIT FUNCTIONS
-t_data		*init_data(int time_to_die, int time_to_eat, int time_to_sleep);
+t_data		*init_data(int count, int time_to_die, int time_to_eat, int time_to_sleep);
 t_thread	**init_struct_array(t_data *data, int	count, int	meals_left);
 void		create_pthread(t_thread **philo_array, int meals_left);
 t_fork		**init_fork_array(int count);

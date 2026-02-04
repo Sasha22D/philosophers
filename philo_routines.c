@@ -11,8 +11,16 @@ void	*philo_routine(void *args)
 	}
 	while (philo->data->has_a_philo_died == 0)
 	{
-		take_fork_left(philo);
-		take_fork_right(philo);
+		// if (philo->id % 2 == 0)
+		// {
+		// 	take_fork_right(philo);
+		// 	take_fork_left(philo);
+		// }
+		// else
+		// {
+			take_fork_left(philo);
+			take_fork_right(philo);
+		// }
 		eat(philo);
 		drop_forks(philo);
 		ft_sleep(philo);

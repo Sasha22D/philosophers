@@ -17,7 +17,7 @@ t_data	*init_data(int count, int time_to_die, int time_to_eat, int time_to_sleep
 	return (data);
 }
 
-t_thread	**init_struct_array(t_data *data, int	count, int	meals_left)
+t_thread	**init_struct_array(t_data *data, int count, int meals_left)
 {
 	t_thread	**array;
 	int			i;

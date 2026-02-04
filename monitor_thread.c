@@ -7,7 +7,7 @@ int	check_meals(t_thread **philo_array)
 	i = 0;
 	while (philo_array[i]->meals_left == 0)
 	{
-		if (i == philo_array[i]->data->nb_philo)
+		if (i + 1 == philo_array[i]->data->nb_philo)
 			return (1);
 		i++;
 	}
@@ -23,6 +23,11 @@ void	*monitor_routine(void *args)
 	{
 		i = 0;
 		monitor->data->actual_time = get_time() - monitor->data->start_time;
+		if (check_meals(monitor->philo_array) == 1)
+		{
+			monitor->data->has_a_philo_died = 1;
+			pthread_mutex_lock(&monitor->data->print_mutex);
+		}
 		while (monitor->philo_array[i] && monitor->data->has_a_philo_died == 0)
 		{
 			if (monitor->philo_array[i]->meals_left != 0)
@@ -37,7 +42,7 @@ void	*monitor_routine(void *args)
 			}
 			i++;
 		}
-		// ft_usleep(100);
+		ft_usleep(10);
 	}
 	return (NULL);
 }

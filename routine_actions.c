@@ -2,9 +2,12 @@
 
 void	take_fork_right(t_thread *philo)
 {
-	if (philo->data->has_a_philo_died == 1)
-		return ;
 	pthread_mutex_lock(&philo->fork_right->fork_mutex);
+	if (philo->data->has_a_philo_died == 1)
+	{
+		pthread_mutex_unlock(&philo->fork_left->fork_mutex);
+		return ;
+	}
 	pthread_mutex_lock(&philo->data->print_mutex);
 	printf("%ld %d has taken a fork\n", philo->data->actual_time, philo->id);
 	pthread_mutex_unlock(&philo->data->print_mutex);
@@ -12,9 +15,12 @@ void	take_fork_right(t_thread *philo)
 
 void	take_fork_left(t_thread *philo)
 {
-	if (philo->data->has_a_philo_died == 1)
-		return ;
 	pthread_mutex_lock(&philo->fork_left->fork_mutex);
+	if (philo->data->has_a_philo_died == 1)
+	{
+		pthread_mutex_unlock(&philo->fork_right->fork_mutex);
+		return ;
+	}
 	pthread_mutex_lock(&philo->data->print_mutex);
 	printf("%ld %d has taken a fork\n", philo->data->actual_time, philo->id);
 	pthread_mutex_unlock(&philo->data->print_mutex);

@@ -1,5 +1,29 @@
 #include "philosophers.h"
 
+void	join_pthreads(t_thread **philo_array, t_monitor *monitor, int count)
+{
+	int	i;
+
+	i = 0;
+	pthread_join(monitor->monitor_thread, NULL);
+	while (i < count)
+	{
+		pthread_join(philo_array[i]->philo, NULL);
+		i++;
+	}
+}
+
+int	init_philo(t_thread ***philo_array, t_fork ***fork_array, t_data *data, int meals)
+{
+	*philo_array = init_struct_array(data, data->nb_philo, meals);
+	*fork_array = init_fork_array(data->nb_philo);
+	// if (!philo_array || !fork_array)
+	// 	return (1);
+	assign_forks(*fork_array, *philo_array, data->nb_philo);
+	create_pthread(*philo_array, meals);
+	return (0);
+}
+
 int	main(int ac, char **av)
 {
 	t_thread	**philo_array;
@@ -7,26 +31,23 @@ int	main(int ac, char **av)
 	t_fork		**fork_array;
 	t_monitor	*monitor;
 	int			count;
-	int			i;
-	(void)ac;
 
-	i = 0;
-	count = atoi(av[1]);
-	monitor = malloc(sizeof(t_monitor));
-	data = init_data(atoi(av[1]), atoi(av[2]), atoi(av[3]), atoi(av[4]));
+	philo_array = NULL;
+	fork_array = NULL;
+	monitor = NULL;
+	if (check_args(av) == 1)
+		return (0);
+	count = ft_atoi(av[1]);
+	data = init_data(count, ft_atoi(av[2]), ft_atoi(av[3]), ft_atoi(av[4]));
 	if (ac == 6)
-		philo_array = init_struct_array(data, count, atoi(av[5]));
+		init_philo(&philo_array, &fork_array, data, ft_atoi(av[5]));
 	else
-		philo_array = init_struct_array(data, count, -1);
-	fork_array = init_fork_array(count);
-	assign_forks(fork_array, philo_array, count);
-	create_pthread(philo_array, philo_array[0]->meals_left);
-	init_monitor(monitor, data, philo_array);
-
-	pthread_join(monitor->monitor_thread, NULL);
-	while (i < count)
+		init_philo(&philo_array, &fork_array, data, -1);
+	monitor = init_monitor(monitor, data, philo_array);
+	if (!monitor)
 	{
-		pthread_join(philo_array[i]->philo, NULL);
-		i++;
+		// free
+		// return
 	}
+	join_pthreads(philo_array, monitor, count);
 }

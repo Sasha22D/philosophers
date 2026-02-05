@@ -53,7 +53,7 @@ t_thread	**init_struct_array(t_data *data, int	count, int	meals_left);
 void		create_pthread(t_thread **philo_array, int meals_left);
 t_fork		**init_fork_array(int count);
 void		assign_forks(t_fork **fork_array, t_thread **philo_array, int count);
-void		init_monitor(t_monitor *monitor, t_data *data, t_thread **philo_array);
+t_monitor	*init_monitor(t_monitor *monitor, t_data *data, t_thread **philo_array);
 
 // ROUTINE ACTIONS
 void		take_fork_right(t_thread *philo);
@@ -66,5 +66,6 @@ void		think(t_thread *philo);
 // UTILS
 long		get_time(void);
 void		ft_usleep(int sleep);
+int ft_atoi(char *str);
 
 #endif

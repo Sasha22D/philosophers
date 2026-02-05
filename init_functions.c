@@ -25,7 +25,10 @@ t_thread	**init_struct_array(t_data *data, int count, int meals_left)
 	i = 0;
 	array = malloc(sizeof(t_thread *) * count);
 	if (!array)
+	{
+		printf("malloc fail philo struct array");
 		return (NULL);
+	}
 	while (i < count)
 	{
 		array[i] = malloc(sizeof(t_thread));

@@ -67,5 +67,6 @@ void		think(t_thread *philo);
 long		get_time(void);
 void		ft_usleep(int sleep);
 int ft_atoi(char *str);
+void	free_all(t_thread **philo_array, t_fork **fork_array, t_data *data);
 
 #endif

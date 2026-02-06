@@ -53,3 +53,31 @@ int	check_args(char **av)
 		return (1);
 	return (0);
 }
+
+void	free_all(t_thread **philo_array, t_fork **fork_array, t_data *data)
+{
+	int	i;
+
+	if (philo_array)
+	{
+		i = 0;
+		while (philo_array[i])
+			free(philo_array[i++]);
+		free(philo_array);
+	}
+	if (fork_array)
+	{
+		i = 0;
+		while (fork_array[i])
+		{
+			pthread_mutex_destroy(&fork_array[i]->fork_mutex);
+			free(philo_array[i++]);
+		}
+		free(fork_array);
+	}
+	if (data)
+	{
+		pthread_mutex_destroy(&data->print_mutex);
+		free(data);
+	}
+}

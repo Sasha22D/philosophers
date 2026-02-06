@@ -56,22 +56,18 @@ int	check_args(char **av)
 
 void	free_all(t_thread **philo_array, t_fork **fork_array, t_data *data, t_monitor *monitor)
 {
-	int	i;
-
 	if (philo_array)
 	{
-		i = 0;
-		while (philo_array[i])
-			free(philo_array[i++]);
+		while (*philo_array)
+			free(*philo_array++);
 		free(philo_array);
 	}
 	if (fork_array)
 	{
-		i = 0;
-		while (fork_array[i])
+		while (*fork_array)
 		{
-			pthread_mutex_destroy(&fork_array[i]->fork_mutex);
-			free(philo_array[i++]);
+			pthread_mutex_destroy(&(*fork_array)->fork_mutex);
+			free(*philo_array++);
 		}
 		free(fork_array);
 	}

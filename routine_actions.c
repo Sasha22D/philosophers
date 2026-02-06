@@ -59,4 +59,6 @@ void	think(t_thread *philo)
 	pthread_mutex_lock(&philo->data->print_mutex);	
 	printf("%ld %d is thinking\n", philo->data->actual_time, philo->id);
 	pthread_mutex_unlock(&philo->data->print_mutex);
+	if (philo->data->nb_philo % 2 != 0)
+		ft_usleep((philo->data->time_to_die - philo->data->time_to_eat - philo->data->time_to_sleep) / 2);
 }

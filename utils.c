@@ -54,28 +54,3 @@ int	check_args(char **av)
 	return (0);
 }
 
-void	free_all(t_thread **philo_array, t_fork **fork_array, t_data *data, t_monitor *monitor)
-{
-	if (philo_array)
-	{
-		while (*philo_array)
-			free(*philo_array++);
-		free(philo_array);
-	}
-	if (fork_array)
-	{
-		while (*fork_array)
-		{
-			pthread_mutex_destroy(&(*fork_array)->fork_mutex);
-			free(*philo_array++);
-		}
-		free(fork_array);
-	}
-	if (data)
-	{
-		pthread_mutex_destroy(&data->print_mutex);
-		free(data);
-	}
-	if (monitor)
-		free(monitor);
-}

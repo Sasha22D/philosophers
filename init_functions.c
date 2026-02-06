@@ -25,13 +25,17 @@ t_thread	**init_struct_array(t_data *data, int count, int meals_left)
 	i = 0;
 	array = malloc(sizeof(t_thread *) * count);
 	if (!array)
-	{
-		printf("malloc fail philo struct array");
 		return (NULL);
-	}
 	while (i < count)
 	{
 		array[i] = malloc(sizeof(t_thread));
+		if (!array[i])
+		{
+			while (--i >= 0)
+				free(array[i]);
+			free(array);
+			return (NULL);
+		}
 		array[i]->id = i + 1;
 		array[i]->data = data;
 		array[i]->last_meal = data->start_time;
@@ -77,6 +81,16 @@ t_fork	**init_fork_array(int count)
 	while (i < count)
 	{
 		array[i] = malloc(sizeof(t_fork));
+		if (!array[i])
+		{
+			while (--i >= 0)
+			{
+				pthread_mutex_destroy(&array[i]->fork_mutex);
+				free(array[i]);
+			}
+			free(array);
+			return (NULL);
+		}
 		array[i]->id = i + 1;
 		pthread_mutex_init(&array[i]->fork_mutex, NULL);
 		i++;

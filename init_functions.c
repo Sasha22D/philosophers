@@ -8,6 +8,7 @@ t_data	*init_data(int ac, char **av)
 	if (!data)
 		return (NULL);
 	data->start_time = get_time();
+	data->actual_time = 0;
 	data->has_a_philo_died = 0;
 	data->nb_philo = ft_atoi(av[1]);
 	data->time_to_die = ft_atoi(av[2]);
@@ -17,6 +18,8 @@ t_data	*init_data(int ac, char **av)
 		data->meals = ft_atoi(av[5]);
 	else
 		data->meals = -1;
+	if (data->nb_philo == 0)
+		return (NULL);
 	pthread_mutex_init(&data->print_mutex, NULL);
 	return (data);
 }
@@ -27,7 +30,7 @@ t_thread	**init_struct_array(t_data *data, int count, int meals_left)
 	int			i;
 
 	i = 0;
-	array = malloc(sizeof(t_thread *) * count);
+	array = malloc(sizeof(t_thread *) * (count + 1));
 	if (!array)
 		return (NULL);
 	while (i < count)
@@ -50,11 +53,16 @@ t_thread	**init_struct_array(t_data *data, int count, int meals_left)
 	return (array);
 }
 
-void	create_pthread(t_thread **philo_array, int meals_left)
+void	create_pthread(t_thread **philo_array, int meals_left, int nb_philo)
 {
 	int	i;
 
 	i = 0;
+	if (nb_philo == 1)
+	{
+		pthread_create(&philo_array[0]->philo, NULL, one_philo_routine, philo_array[0]);
+		return ;
+	}
 	if (meals_left != -1 && meals_left != 0)
 	{
 		while (philo_array[i])
@@ -79,7 +87,7 @@ t_fork	**init_fork_array(int count)
 	int		i;
 
 	i = 0;
-	array = malloc(sizeof(t_fork *) * count);
+	array = malloc(sizeof(t_fork *) * (count + 1));
 	if (!array)
 		return (NULL);
 	while (i < count)
@@ -95,7 +103,6 @@ t_fork	**init_fork_array(int count)
 			free(array);
 			return (NULL);
 		}
-		array[i]->id = i + 1;
 		pthread_mutex_init(&array[i]->fork_mutex, NULL);
 		i++;
 	}

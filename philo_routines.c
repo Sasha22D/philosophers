@@ -2,8 +2,9 @@
 
 void	*philo_routine(void *args)
 {
-	t_thread	*philo = (t_thread *)args;
-
+	t_thread	*philo;
+	
+	philo = (t_thread *)args;
 	if (philo->id % 2 != 0)
 	{
 		printf("0 %d is thinking\n", philo->id);
@@ -31,8 +32,9 @@ void	*philo_routine(void *args)
 
 void	*philo_routine_must_eat(void *args)
 {
-	t_thread	*philo = (t_thread *)args;
-
+	t_thread	*philo;
+	
+	philo = (t_thread *)args;
 	if (philo->id % 2 != 0)
 	{
 		printf("0 %d is thinking\n", philo->id);
@@ -57,5 +59,12 @@ void	*philo_routine_must_eat(void *args)
 		ft_sleep(philo);
 		think(philo);
 	}
+	return (NULL);
+}
+
+void	*one_philo_routine(void *args)
+{
+	(void)args;
+	printf("0 1 has taken a fork\n");
 	return (NULL);
 }

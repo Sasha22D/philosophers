@@ -19,7 +19,7 @@ int	init_philo(t_thread ***philo_array, t_fork ***fork_array, t_data *data, int 
 	*fork_array = init_fork_array(data->nb_philo);
 	if (!philo_array || !fork_array)
 	{
-		free_all(philo_array, fork_array, data, NULL);
+		free_all(*philo_array, *fork_array, data, NULL);
 		return (1);
 	}
 	assign_forks(*fork_array, *philo_array, data->nb_philo);

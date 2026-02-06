@@ -12,6 +12,7 @@ void	free_philo_array(t_thread **philo_array)
 			free(philo_array[i]);
 			i++;
 		}
+        free(philo_array);
 	}
 }
 
@@ -28,6 +29,7 @@ void	free_fork_array(t_fork **fork_array)
 			free(fork_array[i]);
 			i++;
 		}
+        free(fork_array);
 	}
 }
 

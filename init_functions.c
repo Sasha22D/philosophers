@@ -1,6 +1,6 @@
 #include "philosophers.h"
 
-t_data	*init_data(int count, int time_to_die, int time_to_eat, int time_to_sleep)
+t_data	*init_data(int ac, char **av)
 {
 	t_data	*data;
 
@@ -9,10 +9,14 @@ t_data	*init_data(int count, int time_to_die, int time_to_eat, int time_to_sleep
 		return (NULL);
 	data->start_time = get_time();
 	data->has_a_philo_died = 0;
-	data->time_to_die = time_to_die;
-	data->time_to_eat = time_to_eat;
-	data->time_to_sleep = time_to_sleep;
-	data->nb_philo = count;
+	data->nb_philo = ft_atoi(av[1]);
+	data->time_to_die = ft_atoi(av[2]);
+	data->time_to_eat = ft_atoi(av[3]);
+	data->time_to_sleep = ft_atoi(av[4]);
+	if (ac == 6)
+		data->meals = ft_atoi(av[5]);
+	else
+		data->meals = -1;
 	pthread_mutex_init(&data->print_mutex, NULL);
 	return (data);
 }

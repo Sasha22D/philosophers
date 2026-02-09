@@ -12,7 +12,7 @@ void	free_philo_array(t_thread **philo_array)
 			free(philo_array[i]);
 			i++;
 		}
-        free(philo_array);
+		free(philo_array);
 	}
 }
 
@@ -29,7 +29,7 @@ void	free_fork_array(t_fork **fork_array)
 			free(fork_array[i]);
 			i++;
 		}
-        free(fork_array);
+		free(fork_array);
 	}
 }
 
@@ -48,7 +48,8 @@ void	free_monitor(t_monitor *monitor)
 		free(monitor);
 }
 
-void	free_all(t_thread **philo_array, t_fork **fork_array, t_data *data, t_monitor *monitor)
+void	free_all(t_thread **philo_array, t_fork **fork_array, \
+	t_data *data, t_monitor *monitor)
 {
 	free_philo_array(philo_array);
 	free_fork_array(fork_array);

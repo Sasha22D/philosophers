@@ -63,7 +63,15 @@ void	create_pthread(t_thread **philo_array, int meals_left, int nb_philo)
 		pthread_create(&philo_array[0]->philo, NULL, one_philo_routine, philo_array[0]);
 		return ;
 	}
-	if (meals_left != 0)
+	if (meals_left != 0 && meals_left != -1)
+	{
+		while (philo_array[i])
+		{
+			pthread_create(&philo_array[i]->philo, NULL, philo_routine_must_eat, philo_array[i]);
+			i++;
+		}
+	}
+	else if (meals_left == -1)
 	{
 		while (philo_array[i])
 		{

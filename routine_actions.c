@@ -3,12 +3,13 @@
 void	take_fork_right(t_thread *philo)
 {
 	pthread_mutex_lock(&philo->fork_right->fork_mutex);
+	pthread_mutex_lock(&philo->data->print_mutex);
 	if (philo->data->has_a_philo_died == 1)
 	{
-		pthread_mutex_unlock(&philo->fork_left->fork_mutex);
+		pthread_mutex_unlock(&philo->fork_right->fork_mutex);
+		pthread_mutex_unlock(&philo->data->print_mutex);
 		return ;
 	}
-	pthread_mutex_lock(&philo->data->print_mutex);
 	printf("%ld %d has taken a fork\n", get_time() - philo->data->start_time, \
 		philo->id);
 	pthread_mutex_unlock(&philo->data->print_mutex);
@@ -17,12 +18,13 @@ void	take_fork_right(t_thread *philo)
 void	take_fork_left(t_thread *philo)
 {
 	pthread_mutex_lock(&philo->fork_left->fork_mutex);
+	pthread_mutex_lock(&philo->data->print_mutex);
 	if (philo->data->has_a_philo_died == 1)
 	{
-		pthread_mutex_unlock(&philo->fork_right->fork_mutex);
+		pthread_mutex_unlock(&philo->fork_left->fork_mutex);
+		pthread_mutex_unlock(&philo->data->print_mutex);
 		return ;
 	}
-	pthread_mutex_lock(&philo->data->print_mutex);
 	printf("%ld %d has taken a fork\n", get_time() - philo->data->start_time, \
 		philo->id);
 	pthread_mutex_unlock(&philo->data->print_mutex);
@@ -41,6 +43,7 @@ void	eat(t_thread *philo)
 		philo->last_meal = get_time();
 		printf("%ld %d is eating\n", get_time() - philo->data->start_time, \
 			philo->id);
+		// printf("%d\n", philo->meals_left);
 		philo->meals_left--;
 		ft_usleep(philo->data->time_to_eat);
 	}
@@ -48,9 +51,12 @@ void	eat(t_thread *philo)
 
 void	ft_sleep(t_thread *philo)
 {
-	if (philo->data->has_a_philo_died == 1)
-		return ;
 	pthread_mutex_lock(&philo->data->print_mutex);
+	if (philo->data->has_a_philo_died == 1)
+	{
+		pthread_mutex_unlock(&philo->data->print_mutex);
+		return ;
+	}
 	printf("%ld %d is sleeping\n", get_time() - philo->data->start_time, \
 		philo->id);
 	pthread_mutex_unlock(&philo->data->print_mutex);
@@ -59,13 +65,14 @@ void	ft_sleep(t_thread *philo)
 
 void	think(t_thread *philo)
 {
-	if (philo->data->has_a_philo_died == 1)
-		return ;
 	pthread_mutex_lock(&philo->data->print_mutex);
-	printf("%ld %d is thinking\n", get_time() - philo->data->start_time, \
-		philo->id);
+	if (philo->data->has_a_philo_died == 1)
+	{
+		pthread_mutex_unlock(&philo->data->print_mutex);
+		return ;
+	}
+	printf("%ld %d is thinking\n", get_time() - philo->data->start_time, philo->id);
 	pthread_mutex_unlock(&philo->data->print_mutex);
 	if (philo->data->nb_philo % 2 != 0)
-		ft_usleep((philo->data->time_to_die - philo->data->time_to_eat - \
-			philo->data->time_to_sleep) / 2);
+		ft_usleep((philo->data->time_to_die - philo->data->time_to_eat - philo->data->time_to_sleep) / 2);
 }

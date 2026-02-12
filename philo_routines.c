@@ -11,16 +11,19 @@
 /* ************************************************************************** */
 #include "philosophers.h"
 
+void	odds_think(t_thread *philo)
+{
+	printf("%ld %d is thinking\n", get_time() - philo->data->start_time, philo->id);
+	ft_usleep(philo->data->time_to_eat);
+}
+
 void	*philo_routine(void *args)
 {
 	t_thread	*philo;
 
 	philo = (t_thread *)args;
 	if (philo->id % 2 != 0)
-	{
-		printf("0 %d is thinking\n", philo->id);
-		ft_usleep(philo->data->time_to_eat);
-	}
+		odds_think(philo);
 	while (philo->data->has_a_philo_died == 0)
 	{
 		if (philo->id % 2 != 0)
@@ -47,10 +50,7 @@ void	*philo_routine_must_eat(void *args)
 
 	philo = (t_thread *)args;
 	if (philo->id % 2 != 0)
-	{
-		printf("0 %d is thinking\n", philo->id);
-		ft_usleep(philo->data->time_to_eat);
-	}
+		odds_think(philo);
 	while (philo->data->has_a_philo_died == 0 && philo->meals_left > 0)
 	{
 		if (philo->id % 2 != 0)

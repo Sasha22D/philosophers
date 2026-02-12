@@ -46,8 +46,7 @@ void	*monitor_routine(void *args)
 		while (monitor->philo_array[i] && monitor->data->has_a_philo_died == 0)
 		{
 			if (get_time() - monitor->philo_array[i]->last_meal
-				>= monitor->data->time_to_die
-				&& monitor->philo_array[i]->meals_left != 0)
+				>= monitor->data->time_to_die)
 			{
 				monitor->data->has_a_philo_died = 1;
 				death_message(monitor, monitor->philo_array[i]->id);

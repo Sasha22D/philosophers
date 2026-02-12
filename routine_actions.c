@@ -52,7 +52,7 @@ void	eat(t_thread *philo)
 	if (philo->data->has_a_philo_died == 0)
 	{
 		philo->last_meal = get_time();
-		printf("%ld %d is eating\n", get_time() - philo->data->start_time, \
+		printf("%ld %d is eating\n", philo->last_meal - philo->data->start_time, \
 			philo->id);
 		ft_usleep(philo->data->time_to_eat);
 		philo->meals_left--;

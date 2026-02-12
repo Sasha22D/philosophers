@@ -29,8 +29,11 @@ t_data	*init_data(int ac, char **av)
 		data->meals = ft_atoi(av[5]);
 	else
 		data->meals = -1;
-	if (data->nb_philo == 0)
+	if (data->nb_philo == 0 || data->nb_philo > 200)
+	{
+		free(data);
 		return (NULL);
+	}
 	pthread_mutex_init(&data->print_mutex, NULL);
 	return (data);
 }

@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_functions.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sadaniel <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/12 12:26:49 by sadaniel          #+#    #+#             */
+/*   Updated: 2026/02/12 12:26:53 by sadaniel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "philosophers.h"
 
 t_data	*init_data(int ac, char **av)
@@ -59,15 +70,14 @@ void	create_pthread(t_thread **philo_array, int meals_left, int nb_philo)
 
 	i = 0;
 	if (nb_philo == 1)
-	{
-		pthread_create(&philo_array[0]->philo, NULL, one_philo_routine, philo_array[0]);
-		return ;
-	}
-	if (meals_left != 0 && meals_left != -1)
+		pthread_create(&philo_array[0]->philo, NULL, \
+			one_philo_routine, philo_array[0]);
+	else if (meals_left != 0 && meals_left != -1)
 	{
 		while (philo_array[i])
 		{
-			pthread_create(&philo_array[i]->philo, NULL, philo_routine_must_eat, philo_array[i]);
+			pthread_create(&philo_array[i]->philo, NULL, \
+				philo_routine_must_eat, philo_array[i]);
 			i++;
 		}
 	}
@@ -75,7 +85,8 @@ void	create_pthread(t_thread **philo_array, int meals_left, int nb_philo)
 	{
 		while (philo_array[i])
 		{
-			pthread_create(&philo_array[i]->philo, NULL, philo_routine, philo_array[i]);
+			pthread_create(&philo_array[i]->philo, NULL, \
+				philo_routine, philo_array[i]);
 			i++;
 		}
 	}

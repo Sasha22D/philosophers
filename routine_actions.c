@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   routine_actions.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sadaniel <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/12 12:27:07 by sadaniel          #+#    #+#             */
+/*   Updated: 2026/02/12 12:27:10 by sadaniel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "philosophers.h"
 
 void	take_fork_right(t_thread *philo)
@@ -43,9 +54,8 @@ void	eat(t_thread *philo)
 		philo->last_meal = get_time();
 		printf("%ld %d is eating\n", get_time() - philo->data->start_time, \
 			philo->id);
-		// printf("%d\n", philo->meals_left);
-		philo->meals_left--;
 		ft_usleep(philo->data->time_to_eat);
+		philo->meals_left--;
 	}
 }
 
@@ -71,8 +81,10 @@ void	think(t_thread *philo)
 		pthread_mutex_unlock(&philo->data->print_mutex);
 		return ;
 	}
-	printf("%ld %d is thinking\n", get_time() - philo->data->start_time, philo->id);
+	printf("%ld %d is thinking\n", get_time() - philo->data->start_time, \
+		philo->id);
 	pthread_mutex_unlock(&philo->data->print_mutex);
 	if (philo->data->nb_philo % 2 != 0)
-		ft_usleep((philo->data->time_to_die - philo->data->time_to_eat - philo->data->time_to_sleep) / 2);
+		ft_usleep((philo->data->time_to_die - philo->data->time_to_eat - \
+			philo->data->time_to_sleep) / 2);
 }

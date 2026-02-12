@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philosophers.h                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sadaniel <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/12 12:27:42 by sadaniel          #+#    #+#             */
+/*   Updated: 2026/02/12 12:27:45 by sadaniel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #ifndef PHILOSOPHERS_H
 # define PHILOSOPHERS_H
 
@@ -46,15 +57,18 @@ typedef struct s_monitor
 // THREAD ROUTINE ETC
 void		*philo_routine(void *args);
 void		*philo_routine_must_eat(void *args);
-void	*one_philo_routine(void *args);
+void		*one_philo_routine(void *args);
 
 // INIT FUNCTIONS
 t_data		*init_data(int ac, char **av);
-t_thread	**init_struct_array(t_data *data, int	count, int	meals_left);
-void		create_pthread(t_thread **philo_array, int meals_left, int nb_philo);
+t_thread	**init_struct_array(t_data *data, int count, int meals_left);
+void		create_pthread(t_thread **philo_array,
+				int meals_left, int nb_philo);
 t_fork		**init_fork_array(int count);
-void		assign_forks(t_fork **fork_array, t_thread **philo_array, int count);
-t_monitor	*init_monitor(t_monitor *monitor, t_data *data, t_thread **philo_array);
+void		assign_forks(t_fork **fork_array,
+				t_thread **philo_array, int count);
+t_monitor	*init_monitor(t_monitor *monitor, t_data *data,
+				t_thread **philo_array);
 
 // ROUTINE ACTIONS
 void		take_fork_right(t_thread *philo);
@@ -67,8 +81,9 @@ void		think(t_thread *philo);
 // UTILS
 long		get_time(void);
 void		ft_usleep(int sleep);
-int 		ft_atoi(char *str);
+int			ft_atoi(char *str);
 int			check_args(char **av);
-void		free_all(t_thread **philo_array, t_fork **fork_array, t_data *data, t_monitor *monitor);
+void		free_all(t_thread **philo_array, t_fork **fork_array,
+				t_data *data, t_monitor *monitor);
 
 #endif

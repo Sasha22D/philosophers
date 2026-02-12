@@ -1,9 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo_routines.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sadaniel <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/12 12:27:03 by sadaniel          #+#    #+#             */
+/*   Updated: 2026/02/12 12:27:06 by sadaniel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "philosophers.h"
 
 void	*philo_routine(void *args)
 {
 	t_thread	*philo;
-	
+
 	philo = (t_thread *)args;
 	if (philo->id % 2 != 0)
 	{
@@ -33,7 +44,7 @@ void	*philo_routine(void *args)
 void	*philo_routine_must_eat(void *args)
 {
 	t_thread	*philo;
-	
+
 	philo = (t_thread *)args;
 	if (philo->id % 2 != 0)
 	{

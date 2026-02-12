@@ -1,9 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sadaniel <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/12 12:27:11 by sadaniel          #+#    #+#             */
+/*   Updated: 2026/02/12 12:27:19 by sadaniel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "philosophers.h"
 
-long	get_time()
+long	get_time(void)
 {
-	struct timeval tv;
-	
+	struct timeval	tv;
+
 	gettimeofday(&tv, NULL);
 	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
@@ -16,20 +27,21 @@ void	ft_usleep(int sleep)
 	while (get_time() - start < sleep)
 		usleep(1);
 }
-int ft_atoi(char *str)
-{
-    int result;
-    int i;
 
-    result = 0;
-    i = 0;
-    while (str[i] >= '0' && str[i] <= '9')
-    {
-        result *= 10;
-        result += str[i] - '0';
-        i++;
-    }
-    return (result);
+int	ft_atoi(char *str)
+{
+	int	result;
+	int	i;
+
+	result = 0;
+	i = 0;
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		result *= 10;
+		result += str[i] - '0';
+		i++;
+	}
+	return (result);
 }
 
 int	check_args(char **av)
@@ -53,4 +65,3 @@ int	check_args(char **av)
 		return (1);
 	return (0);
 }
-

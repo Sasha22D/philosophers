@@ -25,7 +25,12 @@ void	ft_usleep(int sleep)
 
 	start = get_time();
 	while (get_time() - start < sleep)
-		usleep(1);
+	{
+		if (get_time() - start > 100)
+			usleep(100);
+		else
+			usleep(1);
+	}
 }
 
 int	ft_atoi(char *str)

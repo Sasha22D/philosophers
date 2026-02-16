@@ -67,34 +67,6 @@ t_thread	**init_struct_array(t_data *data, int count, int meals_left)
 	return (array);
 }
 
-void	create_pthread(t_thread **philo_array, int meals_left, int nb_philo)
-{
-	int	i;
-
-	i = 0;
-	if (nb_philo == 1)
-		pthread_create(&philo_array[0]->philo, NULL, \
-			one_philo_routine, philo_array[0]);
-	else if (meals_left != 0 && meals_left != -1)
-	{
-		while (philo_array[i])
-		{
-			pthread_create(&philo_array[i]->philo, NULL, \
-				philo_routine_must_eat, philo_array[i]);
-			i++;
-		}
-	}
-	else if (meals_left == -1)
-	{
-		while (philo_array[i])
-		{
-			pthread_create(&philo_array[i]->philo, NULL, \
-				philo_routine, philo_array[i]);
-			i++;
-		}
-	}
-}
-
 t_fork	**init_fork_array(int count)
 {
 	t_fork	**array;

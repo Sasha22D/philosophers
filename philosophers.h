@@ -63,7 +63,7 @@ void		*one_philo_routine(void *args);
 // INIT FUNCTIONS
 t_data		*init_data(int ac, char **av);
 t_thread	**init_struct_array(t_data *data, int count, int meals_left);
-void		create_pthread(t_thread **philo_array,
+int			create_pthreads(t_thread **philo_array,
 				int meals_left, int nb_philo);
 t_fork		**init_fork_array(int count);
 void		assign_forks(t_fork **fork_array,

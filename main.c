@@ -34,7 +34,11 @@ int	init_philo(t_thread ***philo_array, t_fork ***fork_array, t_data *data)
 		return (1);
 	}
 	assign_forks(*fork_array, *philo_array, data->nb_philo);
-	create_pthread(*philo_array, data->meals, data->nb_philo);
+	if (create_pthreads(*philo_array, data->meals, data->nb_philo) != 0)
+	{
+		free_all(*philo_array, *fork_array, data, NULL);
+		return (1);
+	}
 	return (0);
 }
 
@@ -44,14 +48,12 @@ int	main(int ac, char **av)
 	t_data		*data;
 	t_fork		**fork_array;
 	t_monitor	*monitor;
-	int			count;
 
 	philo_array = NULL;
 	fork_array = NULL;
 	monitor = NULL;
 	if (check_args(av) == 1)
 		return (0);
-	count = ft_atoi(av[1]);
 	data = init_data(ac, av);
 	if (!data)
 		return (0);
@@ -60,6 +62,6 @@ int	main(int ac, char **av)
 	monitor = init_monitor(monitor, data, philo_array);
 	if (!monitor)
 		return (free_all(philo_array, fork_array, data, monitor), 0);
-	join_pthreads(philo_array, monitor, count);
+	join_pthreads(philo_array, monitor, data->nb_philo);
 	free_all(philo_array, fork_array, data, monitor);
 }

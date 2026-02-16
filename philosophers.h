@@ -45,6 +45,7 @@ typedef struct s_thread
 	t_fork			*fork_left;
 	t_fork			*fork_right;
 	t_data			*data;
+	pthread_mutex_t	meal_mutex;
 }				t_thread;
 
 typedef struct s_monitor

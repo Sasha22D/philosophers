@@ -13,7 +13,8 @@
 
 void	odds_think(t_thread *philo)
 {
-	printf("%ld %d is thinking\n", get_time() - philo->data->start_time, philo->id);
+	printf("%ld %d is thinking\n", get_time() - \
+	philo->data->start_time, philo->id);
 	ft_usleep(philo->data->time_to_eat);
 }
 

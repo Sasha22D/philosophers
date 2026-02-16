@@ -48,7 +48,7 @@ void	*monitor_routine(void *args)
 		{
 			pthread_mutex_lock(&monitor->philo_array[i]->meal_mutex);
 			last_meal = get_time() - monitor->philo_array[i]->last_meal;
-			pthread_mutex_unlock(&monitor->philo_array[i]->meal_mutex);			
+			pthread_mutex_unlock(&monitor->philo_array[i]->meal_mutex);
 			if (last_meal >= monitor->data->time_to_die)
 			{
 				monitor->data->has_a_philo_died = 1;
@@ -56,7 +56,7 @@ void	*monitor_routine(void *args)
 			}
 			i++;
 		}
-		ft_usleep(500);
+		ft_usleep(10);
 	}
 	return (NULL);
 }

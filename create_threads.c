@@ -61,7 +61,7 @@ int	create_no_meal_pthread(t_thread **philo_array)
 
 int	create_pthreads(t_thread **philo_array, int meals_left, int nb_philo)
 {
-	if (nb_philo == 1)
+	if (nb_philo == 1 && meals_left != 0)
 		return (create_solo_pthread(philo_array, meals_left) != 0);
 	else if (meals_left != 0 && meals_left != -1)
 		return (create_meal_pthread(philo_array));

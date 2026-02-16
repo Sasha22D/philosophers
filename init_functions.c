@@ -61,7 +61,7 @@ t_thread	**init_struct_array(t_data *data, int count, int meals_left)
 		array[i]->data = data;
 		array[i]->last_meal = data->start_time;
 		array[i]->meals_left = meals_left;
-		i++;
+		pthread_mutex_init(&array[i++]->meal_mutex, NULL);
 	}
 	array[i] = NULL;
 	return (array);

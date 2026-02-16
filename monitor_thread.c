@@ -35,6 +35,7 @@ void	death_message(t_monitor *monitor, int id)
 void	*monitor_routine(void *args)
 {
 	t_monitor	*monitor;
+	long		last_meal;
 	int			i;
 
 	monitor = (t_monitor *)args;
@@ -45,15 +46,17 @@ void	*monitor_routine(void *args)
 			monitor->data->has_a_philo_died = 1;
 		while (monitor->philo_array[i] && monitor->data->has_a_philo_died == 0)
 		{
-			if (get_time() - monitor->philo_array[i]->last_meal
-				>= monitor->data->time_to_die)
+			pthread_mutex_lock(&monitor->philo_array[i]->meal_mutex);
+			last_meal = get_time() - monitor->philo_array[i]->last_meal;
+			pthread_mutex_unlock(&monitor->philo_array[i]->meal_mutex);			
+			if (last_meal >= monitor->data->time_to_die)
 			{
 				monitor->data->has_a_philo_died = 1;
 				death_message(monitor, monitor->philo_array[i]->id);
 			}
 			i++;
 		}
-		ft_usleep(10);
+		ft_usleep(500);
 	}
 	return (NULL);
 }

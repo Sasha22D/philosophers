@@ -20,6 +20,7 @@ void	free_philo_array(t_thread **philo_array)
 	{
 		while (philo_array[i])
 		{
+			pthread_mutex_destroy(&philo_array[i]->meal_mutex);
 			free(philo_array[i]);
 			i++;
 		}

@@ -35,6 +35,7 @@ t_data	*init_data(int ac, char **av)
 		return (NULL);
 	}
 	pthread_mutex_init(&data->print_mutex, NULL);
+	pthread_mutex_init(&data->death_mutex, NULL);
 	return (data);
 }
 

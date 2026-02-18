@@ -36,7 +36,7 @@ void	ft_usleep(int sleep)
 long	ft_atol(char *str)
 {
 	long	result;
-	int	i;
+	int		i;
 
 	result = 0;
 	i = 0;

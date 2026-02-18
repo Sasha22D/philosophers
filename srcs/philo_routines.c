@@ -33,7 +33,7 @@ void	*philo_routine(void *args)
 	philo = (t_thread *)args;
 	if (philo->id % 2 != 0)
 		odds_think(philo);
-	while (philo->data->has_a_philo_died == 0)
+	while (check_death(philo) == 0)
 	{
 		if (philo->id % 2 != 0)
 		{
@@ -60,7 +60,7 @@ void	*philo_routine_must_eat(void *args)
 	philo = (t_thread *)args;
 	if (philo->id % 2 != 0)
 		odds_think(philo);
-	while (philo->data->has_a_philo_died == 0 && philo->meals_left > 0)
+	while (check_death(philo) == 0 && philo->meals_left > 0)
 	{
 		if (philo->id % 2 != 0)
 		{

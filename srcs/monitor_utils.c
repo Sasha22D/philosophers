@@ -24,7 +24,7 @@ int	check_meals(t_thread **philo_array)
 		if (philo_array[i]->meals_left == 0)
 			j++;
 		pthread_mutex_unlock(&philo_array[i]->meal_mutex);
-		if (j + 1 == philo_array[i]->data->nb_philo)
+		if (j == philo_array[0]->data->nb_philo)
 			return (1);
 		i++;
 	}

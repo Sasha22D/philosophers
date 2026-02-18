@@ -11,40 +11,6 @@
 /* ************************************************************************** */
 #include "philosophers.h"
 
-int	check_meals(t_thread **philo_array)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	while (philo_array[i])
-	{
-		pthread_mutex_lock(&philo_array[i]->meal_mutex);
-		if (philo_array[i]->meals_left == 0)
-			j++;
-		pthread_mutex_unlock(&philo_array[i]->meal_mutex);
-		if (j + 1 == philo_array[i]->data->nb_philo)
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-void	death_message(t_monitor *monitor, int id)
-{
-	pthread_mutex_lock(&monitor->data->print_mutex);
-	printf("%ld %d died\n", get_time() - monitor->data->start_time, id);
-	pthread_mutex_unlock(&monitor->data->print_mutex);
-}
-
-void	set_death(t_monitor *monitor)
-{
-	pthread_mutex_lock(&monitor->data->death_mutex);
-	monitor->data->has_a_philo_died = 1;
-	pthread_mutex_unlock(&monitor->data->death_mutex);
-}
-
 void	*monitor_routine(void *args)
 {
 	t_monitor	*monitor;

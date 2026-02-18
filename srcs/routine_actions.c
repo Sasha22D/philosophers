@@ -18,7 +18,7 @@ void	take_fork_right(t_thread *philo)
 	now = get_time();
 	pthread_mutex_lock(&philo->fork_right->fork_mutex);
 	pthread_mutex_lock(&philo->data->print_mutex);
-	if (philo->data->has_a_philo_died == 1)
+	if (check_death(philo) == 1)
 	{
 		pthread_mutex_unlock(&philo->fork_right->fork_mutex);
 		pthread_mutex_unlock(&philo->data->print_mutex);
@@ -36,7 +36,7 @@ void	take_fork_left(t_thread *philo)
 	now = get_time();
 	pthread_mutex_lock(&philo->fork_left->fork_mutex);
 	pthread_mutex_lock(&philo->data->print_mutex);
-	if (philo->data->has_a_philo_died == 1)
+	if (check_death(philo) == 1)
 	{
 		pthread_mutex_unlock(&philo->fork_left->fork_mutex);
 		pthread_mutex_unlock(&philo->data->print_mutex);
@@ -49,16 +49,20 @@ void	take_fork_left(t_thread *philo)
 
 void	eat(t_thread *philo)
 {
-	if (philo->data->has_a_philo_died == 0)
+	pthread_mutex_lock(&philo->data->print_mutex);
+	if (check_death(philo) == 1)
 	{
-		pthread_mutex_lock(&philo->meal_mutex);
-		philo->last_meal = get_time();
-		pthread_mutex_unlock(&philo->meal_mutex);
-		printf("%ld %d is eating\n", philo->last_meal - philo->data->start_time, \
-			philo->id);
-		ft_usleep(philo->data->time_to_eat);
-		philo->meals_left--;
+		pthread_mutex_unlock(&philo->data->print_mutex);
+		return ;
 	}
+	printf("%ld %d is eating\n", get_time() - philo->data->start_time, \
+		philo->id);
+	pthread_mutex_unlock(&philo->data->print_mutex);
+	ft_usleep(philo->data->time_to_eat);
+	pthread_mutex_lock(&philo->meal_mutex);
+	philo->last_meal = get_time();
+	philo->meals_left--;
+	pthread_mutex_unlock(&philo->meal_mutex);
 }
 
 void	ft_sleep(t_thread *philo)
@@ -67,7 +71,7 @@ void	ft_sleep(t_thread *philo)
 
 	now = get_time();
 	pthread_mutex_lock(&philo->data->print_mutex);
-	if (philo->data->has_a_philo_died == 1)
+	if (check_death(philo) == 1)
 	{
 		pthread_mutex_unlock(&philo->data->print_mutex);
 		return ;
@@ -84,7 +88,7 @@ void	think(t_thread *philo)
 
 	now = get_time();
 	pthread_mutex_lock(&philo->data->print_mutex);
-	if (philo->data->has_a_philo_died == 1)
+	if (check_death(philo) == 1)
 	{
 		pthread_mutex_unlock(&philo->data->print_mutex);
 		return ;

@@ -89,4 +89,10 @@ int			check_data_values(t_data *data);
 void		free_all(t_thread **philo_array, t_fork **fork_array,
 				t_data *data, t_monitor *monitor);
 
+// MONITOR UTILS
+int			check_meals(t_thread **philo_array);
+void		death_message(t_monitor *monitor, int id);
+void		set_death(t_monitor *monitor);
+int			check_death(t_thread *philo);
+
 #endif

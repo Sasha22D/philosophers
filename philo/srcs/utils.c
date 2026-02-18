@@ -9,7 +9,7 @@
 /*   Updated: 2026/02/12 12:27:19 by sadaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "philosophers.h"
+#include "../include/philosophers.h"
 
 long	get_time(void)
 {

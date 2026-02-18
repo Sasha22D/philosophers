@@ -9,7 +9,7 @@
 /*   Updated: 2026/02/16 13:07:16 by sadaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "philosophers.h"
+#include "../include/philosophers.h"
 
 int	create_solo_pthread(t_thread **philo_array, int meals_left)
 {

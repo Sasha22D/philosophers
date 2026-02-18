@@ -9,7 +9,7 @@
 /*   Updated: 2026/02/12 12:26:48 by sadaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "philosophers.h"
+#include "../include/philosophers.h"
 
 void	free_philo_array(t_thread **philo_array)
 {

@@ -9,7 +9,7 @@
 /*   Updated: 2026/02/12 12:26:58 by sadaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "philosophers.h"
+#include "../include/philosophers.h"
 
 void	join_pthreads(t_thread **philo_array, t_monitor *monitor, int count)
 {

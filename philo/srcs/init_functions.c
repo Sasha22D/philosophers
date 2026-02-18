@@ -9,7 +9,7 @@
 /*   Updated: 2026/02/12 12:26:53 by sadaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "philosophers.h"
+#include "../include/philosophers.h"
 
 t_data	*init_data(int ac, char **av)
 {

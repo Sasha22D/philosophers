@@ -9,7 +9,7 @@
 /*   Updated: 2026/02/12 12:27:10 by sadaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "philosophers.h"
+#include "../include/philosophers.h"
 
 void	take_fork_right(t_thread *philo)
 {

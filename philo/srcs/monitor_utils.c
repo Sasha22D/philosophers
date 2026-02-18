@@ -9,7 +9,7 @@
 /*   Updated: 2026/02/18 12:52:44 by sadaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "philosophers.h"
+#include "../include/philosophers.h"
 
 int	check_meals(t_thread **philo_array)
 {

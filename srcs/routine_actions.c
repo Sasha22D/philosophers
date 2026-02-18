@@ -47,12 +47,6 @@ void	take_fork_left(t_thread *philo)
 	pthread_mutex_unlock(&philo->data->print_mutex);
 }
 
-void	drop_forks(t_thread *philo)
-{
-	pthread_mutex_unlock(&philo->fork_left->fork_mutex);
-	pthread_mutex_unlock(&philo->fork_right->fork_mutex);
-}
-
 void	eat(t_thread *philo)
 {
 	if (philo->data->has_a_philo_died == 0)

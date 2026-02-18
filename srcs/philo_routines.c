@@ -18,6 +18,12 @@ void	odds_think(t_thread *philo)
 	ft_usleep(philo->data->time_to_eat);
 }
 
+void	drop_forks(t_thread *philo)
+{
+	pthread_mutex_unlock(&philo->fork_left->fork_mutex);
+	pthread_mutex_unlock(&philo->fork_right->fork_mutex);
+}
+
 void	*philo_routine(void *args)
 {
 	t_thread	*philo;

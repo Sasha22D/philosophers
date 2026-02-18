@@ -14,11 +14,17 @@
 int	check_meals(t_thread **philo_array)
 {
 	int	i;
+	int	j;
 
 	i = 0;
-	while (philo_array[i]->meals_left == 0)
+	j = 0;
+	while (philo_array[i])
 	{
-		if (i + 1 == philo_array[i]->data->nb_philo)
+		pthread_mutex_lock(&philo_array[i]->meal_mutex);
+		if (philo_array[i]->meals_left == 0)
+			j++;
+		pthread_mutex_unlock(&philo_array[i]->meal_mutex);
+		if (j + 1 == philo_array[i]->data->nb_philo)
 			return (1);
 		i++;
 	}

@@ -82,8 +82,9 @@ void		think(t_thread *philo);
 // UTILS
 long		get_time(void);
 void		ft_usleep(int sleep);
-int			ft_atoi(char *str);
+long		ft_atol(char *str);
 int			check_args(char **av);
+int			check_data_values(t_data *data);
 void		free_all(t_thread **philo_array, t_fork **fork_array,
 				t_data *data, t_monitor *monitor);
 

@@ -21,15 +21,15 @@ t_data	*init_data(int ac, char **av)
 	data->start_time = get_time();
 	data->actual_time = 0;
 	data->has_a_philo_died = 0;
-	data->nb_philo = ft_atoi(av[1]);
-	data->time_to_die = ft_atoi(av[2]);
-	data->time_to_eat = ft_atoi(av[3]);
-	data->time_to_sleep = ft_atoi(av[4]);
+	data->nb_philo = ft_atol(av[1]);
+	data->time_to_die = ft_atol(av[2]);
+	data->time_to_eat = ft_atol(av[3]);
+	data->time_to_sleep = ft_atol(av[4]);
 	if (ac == 6)
-		data->meals = ft_atoi(av[5]);
+		data->meals = ft_atol(av[5]);
 	else
 		data->meals = -1;
-	if (data->nb_philo == 0 || data->nb_philo > 200)
+	if (check_data_values(data) == 1)
 	{
 		free(data);
 		return (NULL);

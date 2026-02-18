@@ -80,7 +80,11 @@ void	*philo_routine_must_eat(void *args)
 
 void	*one_philo_routine(void *args)
 {
-	(void)args;
+	t_thread	*philo;
+
+	philo = (t_thread *)args;
+	pthread_mutex_lock(&philo->data->print_mutex);
 	printf("0 1 has taken a fork\n");
+	pthread_mutex_unlock(&philo->data->print_mutex);
 	return (NULL);
 }

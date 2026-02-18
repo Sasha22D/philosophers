@@ -33,9 +33,9 @@ void	ft_usleep(int sleep)
 	}
 }
 
-int	ft_atoi(char *str)
+long	ft_atol(char *str)
 {
-	int	result;
+	long	result;
 	int	i;
 
 	result = 0;
@@ -46,6 +46,8 @@ int	ft_atoi(char *str)
 		result += str[i] - '0';
 		i++;
 	}
+	if (result > 2147483647 || result < -2147483648)
+		return (-1);
 	return (result);
 }
 
@@ -68,5 +70,16 @@ int	check_args(char **av)
 	}
 	if (i != 5 && i != 6)
 		return (1);
+	return (0);
+}
+
+int	check_data_values(t_data *data)
+{
+	if (data->time_to_die < 0 || data->time_to_eat < 0
+		|| data->time_to_sleep < 0 || data->nb_philo == 0
+		|| data->nb_philo > 200)
+	{
+		return (1);
+	}
 	return (0);
 }

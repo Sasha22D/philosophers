@@ -18,7 +18,7 @@ t_data	*init_data(int ac, char **av)
 	data = malloc(sizeof(t_data));
 	if (!data)
 		return (NULL);
-	data->start_time = get_time();
+	data->start_time = 0;
 	data->actual_time = 0;
 	data->has_a_philo_died = 0;
 	data->nb_philo = ft_atol(av[1]);
@@ -36,6 +36,10 @@ t_data	*init_data(int ac, char **av)
 	}
 	pthread_mutex_init(&data->print_mutex, NULL);
 	pthread_mutex_init(&data->death_mutex, NULL);
+	pthread_mutex_init(&data->start_mutex, NULL);
+	data->all_ready = 0;
+	data->ready_count = 0;
+	data->initialized_count = 0;
 	return (data);
 }
 

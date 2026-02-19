@@ -17,7 +17,7 @@ SRCS =	main.c \
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -I$(INCLUDE_DIR)
+CFLAGS = -Wall -Wextra -Werror -pthread -I$(INCLUDE_DIR)
 
 all: $(NAME)
 

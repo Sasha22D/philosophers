@@ -18,7 +18,19 @@ void	*monitor_routine(void *args)
 	int			i;
 
 	monitor = (t_monitor *)args;
-	while (monitor->data->has_a_philo_died == 0)
+	while (1)
+	{
+		pthread_mutex_lock(&monitor->data->start_mutex);
+		if (monitor->data->initialized_count == monitor->data->nb_philo)
+		{
+			pthread_mutex_unlock(&monitor->data->start_mutex);
+			ft_usleep(100);
+			break ;
+		}
+		pthread_mutex_unlock(&monitor->data->start_mutex);
+		usleep(1);
+	}
+	while (check_death(monitor->philo_array[0]) == 0)
 	{
 		i = 0;
 		if (check_meals(monitor->philo_array) == 1)
@@ -35,7 +47,7 @@ void	*monitor_routine(void *args)
 			}
 			i++;
 		}
-		ft_usleep(10);
+		ft_usleep(1);
 	}
 	return (NULL);
 }

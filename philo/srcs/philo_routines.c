@@ -31,6 +31,35 @@ void	*philo_routine(void *args)
 	t_thread	*philo;
 
 	philo = (t_thread *)args;
+	pthread_mutex_lock(&philo->data->start_mutex);
+	philo->data->ready_count++;
+	if (philo->data->ready_count == philo->data->nb_philo)
+	{
+		philo->data->start_time = get_time();
+		philo->data->all_ready = 1;
+	}
+	pthread_mutex_unlock(&philo->data->start_mutex);
+
+	while (1)
+	{
+		pthread_mutex_lock(&philo->data->start_mutex);
+		if (philo->data->all_ready == 1)
+		{
+			pthread_mutex_unlock(&philo->data->start_mutex);
+			break ;
+		}
+		pthread_mutex_unlock(&philo->data->start_mutex);
+		usleep(1);
+	}
+
+	pthread_mutex_lock(&philo->meal_mutex);
+	philo->last_meal = philo->data->start_time;
+	pthread_mutex_unlock(&philo->meal_mutex);
+
+	pthread_mutex_lock(&philo->data->start_mutex);
+	philo->data->initialized_count++;
+	pthread_mutex_unlock(&philo->data->start_mutex);
+
 	if (philo->id % 2 != 0)
 		odds_think(philo);
 	while (check_death(philo) == 0)
@@ -58,6 +87,35 @@ void	*philo_routine_must_eat(void *args)
 	t_thread	*philo;
 
 	philo = (t_thread *)args;
+	pthread_mutex_lock(&philo->data->start_mutex);
+	philo->data->ready_count++;
+	if (philo->data->ready_count == philo->data->nb_philo)
+	{
+		philo->data->start_time = get_time();
+		philo->data->all_ready = 1;
+	}
+	pthread_mutex_unlock(&philo->data->start_mutex);
+
+	while (1)
+	{
+		pthread_mutex_lock(&philo->data->start_mutex);
+		if (philo->data->all_ready == 1)
+		{
+			pthread_mutex_unlock(&philo->data->start_mutex);
+			break ;
+		}
+		pthread_mutex_unlock(&philo->data->start_mutex);
+		usleep(1);
+	}
+
+	pthread_mutex_lock(&philo->meal_mutex);
+	philo->last_meal = philo->data->start_time;
+	pthread_mutex_unlock(&philo->meal_mutex);
+
+	pthread_mutex_lock(&philo->data->start_mutex);
+	philo->data->initialized_count++;
+	pthread_mutex_unlock(&philo->data->start_mutex);
+
 	if (philo->id % 2 != 0)
 		odds_think(philo);
 	while (check_death(philo) == 0 && philo->meals_left > 0)

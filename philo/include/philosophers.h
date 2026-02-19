@@ -28,8 +28,12 @@ typedef struct s_data
 	int				has_a_philo_died;
 	int				nb_philo;
 	int				meals;
+	int				ready_count;
+	int				all_ready;
+	int				initialized_count;
 	pthread_mutex_t	print_mutex;
 	pthread_mutex_t	death_mutex;
+	pthread_mutex_t	start_mutex;
 }				t_data;
 
 typedef struct s_fork

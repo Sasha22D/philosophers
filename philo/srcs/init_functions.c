@@ -18,7 +18,7 @@ t_data	*init_data(int ac, char **av)
 	data = malloc(sizeof(t_data));
 	if (!data)
 		return (NULL);
-	data->start_time = 0;
+	data->start_time = get_time();
 	data->actual_time = 0;
 	data->has_a_philo_died = 0;
 	data->nb_philo = ft_atol(av[1]);

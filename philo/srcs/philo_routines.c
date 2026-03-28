@@ -13,9 +13,11 @@
 
 void	odds_think(t_thread *philo)
 {
+	long long	now;
+
 	pthread_mutex_lock(&philo->data->print_mutex);
-	printf("%ld %d is thinking\n", get_time() - \
-	philo->data->start_time, philo->id);
+	now = get_time() - philo->data->start_time;
+	write_actions(philo->id, now, "THINK");
 	pthread_mutex_unlock(&philo->data->print_mutex);
 	ft_usleep(philo->data->time_to_eat);
 }

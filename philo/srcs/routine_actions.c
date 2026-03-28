@@ -32,16 +32,16 @@ void	write_actions(int id, long long time, char *action)
 	else if (!ft_strcmp(action, "THINK"))
 		write(1, " is thinking\n", 13);
 	else if (!ft_strcmp(action, "DIE"))
-		write(1, "died\n", 5);
+		write(1, " died\n", 6);
 }
 
 void	take_fork_right(t_thread *philo)
 {
-	long	now;
+	long long	now;
 
 	pthread_mutex_lock(&philo->fork_right->fork_mutex);
-	now = get_time() - philo->data->start_time;
 	pthread_mutex_lock(&philo->data->print_mutex);
+	now = get_time() - philo->data->start_time;
 	if (check_death(philo) == 1)
 	{
 		pthread_mutex_unlock(&philo->fork_right->fork_mutex);
@@ -54,11 +54,11 @@ void	take_fork_right(t_thread *philo)
 
 void	take_fork_left(t_thread *philo)
 {
-	long	now;
+	long long	now;
 
 	pthread_mutex_lock(&philo->fork_left->fork_mutex);
-	now = get_time() - philo->data->start_time;
 	pthread_mutex_lock(&philo->data->print_mutex);
+	now = get_time() - philo->data->start_time;
 	if (check_death(philo) == 1)
 	{
 		pthread_mutex_unlock(&philo->fork_left->fork_mutex);
@@ -72,6 +72,7 @@ void	take_fork_left(t_thread *philo)
 void	eat(t_thread *philo)
 {
 	long long now;
+	
 	pthread_mutex_lock(&philo->data->print_mutex);
 	now = get_time() - philo->data->start_time;
 	if (check_death(philo) == 1)

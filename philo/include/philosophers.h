@@ -73,6 +73,7 @@ t_monitor	*init_monitor(t_monitor *monitor, t_data *data,
 				t_thread **philo_array);
 
 // ROUTINE ACTIONS
+void	write_actions(int id, long long time, char *action);
 void		take_fork_right(t_thread *philo);
 void		take_fork_left(t_thread *philo);
 void		drop_forks(t_thread *philo);
@@ -88,6 +89,9 @@ int			check_args(char **av);
 int			check_data_values(t_data *data);
 void		free_all(t_thread **philo_array, t_fork **fork_array,
 				t_data *data, t_monitor *monitor);
+char		*ft_lltoa(long long n);
+int			ft_strlen(char *s);
+int			ft_strcmp(const char *s1, const char *s2);
 
 // MONITOR UTILS
 int			check_meals(t_thread **philo_array);

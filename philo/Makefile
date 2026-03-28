@@ -10,6 +10,7 @@ SRCS =	main.c \
 		monitor_thread.c \
 		philo_routines.c \
 		routine_actions.c \
+		ft_itoa.c \
 		utils.c \
 		monitor_utils.c \
 		free_all.c

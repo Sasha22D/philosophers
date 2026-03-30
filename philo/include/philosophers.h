@@ -30,6 +30,9 @@ typedef struct s_data
 	int				meals;
 	pthread_mutex_t	print_mutex;
 	pthread_mutex_t	death_mutex;
+	pthread_mutex_t	start_mutex;
+	int				all_ready;
+	int				ready_count;
 }				t_data;
 
 typedef struct s_fork

@@ -11,6 +11,22 @@
 /* ************************************************************************** */
 #include "../include/philosophers.h"
 
+void	monitor_spinlock(t_monitor *monitor)
+{
+	while (1)
+	{
+		pthread_mutex_lock(&monitor->data->start_mutex);
+		if (monitor->data->all_ready)
+		{
+			pthread_mutex_unlock(&monitor->data->start_mutex);
+			// usleep(1000);
+			return ;
+		}
+		pthread_mutex_unlock(&monitor->data->start_mutex);
+		ft_usleep(10);
+	}
+}
+
 void	*monitor_routine(void *args)
 {
 	t_monitor	*monitor;
@@ -18,6 +34,7 @@ void	*monitor_routine(void *args)
 	int			i;
 
 	monitor = (t_monitor *)args;
+	monitor_spinlock(monitor);
 	while (monitor->data->has_a_philo_died == 0)
 	{
 		i = 0;
@@ -35,7 +52,7 @@ void	*monitor_routine(void *args)
 			}
 			i++;
 		}
-		ft_usleep(10);
+		usleep(500);
 	}
 	return (NULL);
 }

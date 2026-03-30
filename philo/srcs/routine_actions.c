@@ -48,7 +48,7 @@ void	take_fork_right(t_thread *philo)
 		pthread_mutex_unlock(&philo->data->print_mutex);
 		return ;
 	}
-	write_actions(philo->id, now, "FLEFT");
+	write_actions(philo->id, now, "FRIGHT");
 	pthread_mutex_unlock(&philo->data->print_mutex);
 }
 
@@ -65,7 +65,7 @@ void	take_fork_left(t_thread *philo)
 		pthread_mutex_unlock(&philo->data->print_mutex);
 		return ;
 	}
-	write_actions(philo->id, now, "FRIGHT");
+	write_actions(philo->id, now, "FLEFT");
 	pthread_mutex_unlock(&philo->data->print_mutex);
 }
 
@@ -73,6 +73,10 @@ void	eat(t_thread *philo)
 {
 	long long now;
 	
+	pthread_mutex_lock(&philo->meal_mutex);
+	philo->last_meal = get_time();
+	philo->meals_left--;
+	pthread_mutex_unlock(&philo->meal_mutex);
 	pthread_mutex_lock(&philo->data->print_mutex);
 	now = get_time() - philo->data->start_time;
 	if (check_death(philo) == 1)
@@ -83,10 +87,6 @@ void	eat(t_thread *philo)
 	write_actions(philo->id, now, "EAT");
 	pthread_mutex_unlock(&philo->data->print_mutex);
 	ft_usleep(philo->data->time_to_eat);
-	pthread_mutex_lock(&philo->meal_mutex);
-	philo->last_meal = get_time();
-	philo->meals_left--;
-	pthread_mutex_unlock(&philo->meal_mutex);
 }
 
 void	ft_sleep(t_thread *philo)

@@ -19,7 +19,7 @@ void	odds_think(t_thread *philo)
 	now = get_time() - philo->data->start_time;
 	write_actions(philo->id, now, "THINK");
 	pthread_mutex_unlock(&philo->data->print_mutex);
-	ft_usleep(philo->data->time_to_eat);
+	ft_usleep(1);
 }
 
 void	drop_forks(t_thread *philo)
@@ -28,11 +28,33 @@ void	drop_forks(t_thread *philo)
 	pthread_mutex_unlock(&philo->fork_right->fork_mutex);
 }
 
+void	spinlock(t_thread *philo)
+{
+	pthread_mutex_lock(&philo->data->start_mutex);
+	philo->data->ready_count++;
+	pthread_mutex_unlock(&philo->data->start_mutex);
+	while (1)
+	{
+		pthread_mutex_lock(&philo->data->start_mutex);
+		if (philo->data->all_ready)
+		{
+			pthread_mutex_lock(&philo->meal_mutex);
+			philo->last_meal = philo->data->start_time;
+			pthread_mutex_unlock(&philo->meal_mutex);
+			pthread_mutex_unlock(&philo->data->start_mutex);
+			return ;
+		}
+		pthread_mutex_unlock(&philo->data->start_mutex);
+		usleep(10);
+	}
+}
+
 void	*philo_routine(void *args)
 {
 	t_thread	*philo;
 
 	philo = (t_thread *)args;
+	spinlock(philo);
 	if (philo->id % 2 != 0)
 		odds_think(philo);
 	while (check_death(philo) == 0)
@@ -60,6 +82,7 @@ void	*philo_routine_must_eat(void *args)
 	t_thread	*philo;
 
 	philo = (t_thread *)args;
+	spinlock(philo);
 	if (philo->id % 2 != 0)
 		odds_think(philo);
 	while (check_death(philo) == 0 && philo->meals_left > 0)

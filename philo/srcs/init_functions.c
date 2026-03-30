@@ -30,12 +30,12 @@ t_data	*init_data(int ac, char **av)
 	else
 		data->meals = -1;
 	if (check_data_values(data) == 1)
-	{
-		free(data);
-		return (NULL);
-	}
+		return (free(data), NULL);
 	pthread_mutex_init(&data->print_mutex, NULL);
 	pthread_mutex_init(&data->death_mutex, NULL);
+	pthread_mutex_init(&data->start_mutex, NULL);
+	data->all_ready = 0;
+	data->ready_count = 0;
 	return (data);
 }
 

@@ -33,11 +33,9 @@ int	check_meals(t_thread **philo_array)
 
 void	death_message(t_monitor *monitor, int id)
 {
-	long long	now;
-
+	set_death(monitor);
 	pthread_mutex_lock(&monitor->data->print_mutex);
-	now = get_time() - monitor->data->start_time;
-	write_actions(id, now, "DIE");
+	printf("%ld %d died\n", get_time() - monitor->data->start_time, id);
 	pthread_mutex_unlock(&monitor->data->print_mutex);
 }
 

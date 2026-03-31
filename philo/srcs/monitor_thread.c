@@ -11,22 +11,6 @@
 /* ************************************************************************** */
 #include "../include/philosophers.h"
 
-void	monitor_spinlock(t_monitor *monitor)
-{
-	while (1)
-	{
-		pthread_mutex_lock(&monitor->data->start_mutex);
-		if (monitor->data->all_ready)
-		{
-			pthread_mutex_unlock(&monitor->data->start_mutex);
-			// usleep(1000);
-			return ;
-		}
-		pthread_mutex_unlock(&monitor->data->start_mutex);
-		ft_usleep(10);
-	}
-}
-
 void	*monitor_routine(void *args)
 {
 	t_monitor	*monitor;
@@ -35,7 +19,7 @@ void	*monitor_routine(void *args)
 
 	monitor = (t_monitor *)args;
 	monitor_spinlock(monitor);
-	while (monitor->data->has_a_philo_died == 0)
+	while (check_death(monitor->philo_array[0]) == 0)
 	{
 		i = 0;
 		if (check_meals(monitor->philo_array) == 1)
@@ -46,13 +30,10 @@ void	*monitor_routine(void *args)
 			last_meal = get_time() - monitor->philo_array[i]->last_meal;
 			pthread_mutex_unlock(&monitor->philo_array[i]->meal_mutex);
 			if (last_meal >= monitor->data->time_to_die)
-			{
-				set_death(monitor);
 				death_message(monitor, monitor->philo_array[i]->id);
-			}
 			i++;
 		}
-		usleep(500);
+		ft_usleep(1);
 	}
 	return (NULL);
 }

@@ -25,12 +25,7 @@ void	ft_usleep(int sleep)
 
 	start = get_time();
 	while (get_time() - start < sleep)
-	{
-		if (get_time() - start > 100)
-			usleep(100);
-		else
-			usleep(1);
-	}
+		usleep(100);
 }
 
 long	ft_atol(char *str)

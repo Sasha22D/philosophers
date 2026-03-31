@@ -39,19 +39,6 @@ int	init_philo(t_thread ***philo_array, t_fork ***fork_array, t_data *data)
 		free_all(*philo_array, *fork_array, data, NULL);
 		return (1);
 	}
-	while (1)
-	{
-		pthread_mutex_lock(&data->start_mutex);
-		if (data->ready_count == data->nb_philo)
-		{
-			data->all_ready = 1;
-			data->start_time = get_time();
-			pthread_mutex_unlock(&data->start_mutex);
-			return (0);
-		}
-		pthread_mutex_unlock(&data->start_mutex);
-		ft_usleep(100);
-	}
 	return (0);
 }
 

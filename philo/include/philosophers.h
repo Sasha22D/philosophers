@@ -28,11 +28,12 @@ typedef struct s_data
 	int				has_a_philo_died;
 	int				nb_philo;
 	int				meals;
+	int				ready_count;
+	int				all_ready;
+	int				initialized_count;
 	pthread_mutex_t	print_mutex;
 	pthread_mutex_t	death_mutex;
 	pthread_mutex_t	start_mutex;
-	int				all_ready;
-	int				ready_count;
 }				t_data;
 
 typedef struct s_fork
@@ -59,7 +60,7 @@ typedef struct s_monitor
 	t_thread	**philo_array;
 }				t_monitor;
 
-// THREAD ROUTINE ETC
+// PHILO ROUTINES
 void		*philo_routine(void *args);
 void		*philo_routine_must_eat(void *args);
 void		*one_philo_routine(void *args);
@@ -76,7 +77,6 @@ t_monitor	*init_monitor(t_monitor *monitor, t_data *data,
 				t_thread **philo_array);
 
 // ROUTINE ACTIONS
-void	write_actions(int id, long long time, char *action);
 void		take_fork_right(t_thread *philo);
 void		take_fork_left(t_thread *philo);
 void		drop_forks(t_thread *philo);
@@ -92,14 +92,15 @@ int			check_args(char **av);
 int			check_data_values(t_data *data);
 void		free_all(t_thread **philo_array, t_fork **fork_array,
 				t_data *data, t_monitor *monitor);
-char		*ft_lltoa(long long n);
-int			ft_strlen(char *s);
-int			ft_strcmp(const char *s1, const char *s2);
 
 // MONITOR UTILS
 int			check_meals(t_thread **philo_array);
 void		death_message(t_monitor *monitor, int id);
 void		set_death(t_monitor *monitor);
 int			check_death(t_thread *philo);
+
+// SPINLOCKS
+void		philo_spinlock(t_thread *philo);
+void		monitor_spinlock(t_monitor *monitor);
 
 #endif

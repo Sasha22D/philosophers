@@ -10,15 +10,15 @@ SRCS =	main.c \
 		monitor_thread.c \
 		philo_routines.c \
 		routine_actions.c \
-		ft_itoa.c \
 		utils.c \
 		monitor_utils.c \
+		spinlocks.c \
 		free_all.c
 
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -I$(INCLUDE_DIR)
+CFLAGS = -Wall -Wextra -Werror -pthread -I$(INCLUDE_DIR)
 
 all: $(NAME)
 

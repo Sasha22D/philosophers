@@ -50,6 +50,8 @@ void	free_data(t_data *data)
 	if (data)
 	{
 		pthread_mutex_destroy(&data->print_mutex);
+		pthread_mutex_destroy(&data->death_mutex);
+		pthread_mutex_destroy(&data->start_mutex);
 		free(data);
 	}
 }

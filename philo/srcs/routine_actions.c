@@ -20,7 +20,6 @@ void	take_fork_right(t_thread *philo)
 	now = get_time();
 	if (check_death(philo) == 1)
 	{
-		pthread_mutex_unlock(&philo->fork_right->fork_mutex);
 		pthread_mutex_unlock(&philo->data->print_mutex);
 		return ;
 	}
@@ -38,7 +37,6 @@ void	take_fork_left(t_thread *philo)
 	now = get_time();
 	if (check_death(philo) == 1)
 	{
-		pthread_mutex_unlock(&philo->fork_left->fork_mutex);
 		pthread_mutex_unlock(&philo->data->print_mutex);
 		return ;
 	}
@@ -52,7 +50,6 @@ void	eat(t_thread *philo)
 	pthread_mutex_lock(&philo->data->print_mutex);
 	pthread_mutex_lock(&philo->meal_mutex);
 	philo->last_meal = get_time();
-	philo->meals_left--;
 	pthread_mutex_unlock(&philo->meal_mutex);
 	if (check_death(philo) == 1)
 	{
@@ -63,6 +60,9 @@ void	eat(t_thread *philo)
 		philo->id);
 	pthread_mutex_unlock(&philo->data->print_mutex);
 	ft_usleep(philo->data->time_to_eat);
+	pthread_mutex_lock(&philo->meal_mutex);
+	philo->meals_left--;
+	pthread_mutex_unlock(&philo->meal_mutex);
 }
 
 void	ft_sleep(t_thread *philo)

@@ -48,7 +48,7 @@ void	monitor_spinlock(t_monitor *monitor)
 		if (monitor->data->initialized_count == monitor->data->nb_philo)
 		{
 			pthread_mutex_unlock(&monitor->data->start_mutex);
-			ft_usleep(100);
+			ft_usleep(60);
 			break ;
 		}
 		pthread_mutex_unlock(&monitor->data->start_mutex);

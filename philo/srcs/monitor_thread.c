@@ -48,7 +48,8 @@ t_monitor	*init_monitor(t_monitor *monitor, \
 			return (NULL);
 		monitor->data = data;
 		monitor->philo_array = philo_array;
-		pthread_create(&monitor->monitor_thread, NULL, monitor_routine, monitor);
+		pthread_create(&monitor->monitor_thread, NULL, \
+			monitor_routine, monitor);
 		return (monitor);
 	}
 	else

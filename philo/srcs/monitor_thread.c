@@ -41,11 +41,16 @@ void	*monitor_routine(void *args)
 t_monitor	*init_monitor(t_monitor *monitor, \
 	t_data *data, t_thread **philo_array)
 {
-	monitor = malloc(sizeof(t_monitor));
-	if (!monitor)
+	if (data->nb_philo != 1)
+	{
+		monitor = malloc(sizeof(t_monitor));
+		if (!monitor)
+			return (NULL);
+		monitor->data = data;
+		monitor->philo_array = philo_array;
+		pthread_create(&monitor->monitor_thread, NULL, monitor_routine, monitor);
+		return (monitor);
+	}
+	else
 		return (NULL);
-	monitor->data = data;
-	monitor->philo_array = philo_array;
-	pthread_create(&monitor->monitor_thread, NULL, monitor_routine, monitor);
-	return (monitor);
 }

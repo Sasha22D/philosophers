@@ -90,5 +90,9 @@ void	*one_philo_routine(void *args)
 	pthread_mutex_lock(&philo->data->print_mutex);
 	printf("0 1 has taken a fork\n");
 	pthread_mutex_unlock(&philo->data->print_mutex);
+	ft_usleep(philo->data->time_to_die);
+	pthread_mutex_lock(&philo->data->print_mutex);
+	printf("%ld 1 died\n", philo->data->time_to_die);
+	pthread_mutex_unlock(&philo->data->print_mutex);
 	return (NULL);
 }

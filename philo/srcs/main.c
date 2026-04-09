@@ -16,7 +16,8 @@ void	join_pthreads(t_thread **philo_array, t_monitor *monitor, int count)
 	int	i;
 
 	i = 0;
-	pthread_join(monitor->monitor_thread, NULL);
+	if (philo_array[0]->data->nb_philo != 1)
+		pthread_join(monitor->monitor_thread, NULL);
 	while (i < count)
 	{
 		pthread_join(philo_array[i]->philo, NULL);
@@ -57,11 +58,14 @@ int	main(int ac, char **av)
 	data = init_data(ac, av);
 	if (!data)
 		return (0);
-	if (init_philo(&philo_array, &fork_array, data) == 1)
-		return (0);
-	monitor = init_monitor(monitor, data, philo_array);
-	if (!monitor)
-		return (free_all(philo_array, fork_array, data, monitor), 0);
-	join_pthreads(philo_array, monitor, data->nb_philo);
+	if (data->meals != 0)
+	{
+		if (init_philo(&philo_array, &fork_array, data) == 1)
+			return (0);
+		monitor = init_monitor(monitor, data, philo_array);
+		if (!monitor && data->nb_philo != 1)
+			return (free_all(philo_array, fork_array, data, monitor), 0);
+		join_pthreads(philo_array, monitor, data->nb_philo);
+	}
 	free_all(philo_array, fork_array, data, monitor);
 }
